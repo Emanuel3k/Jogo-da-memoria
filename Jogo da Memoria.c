@@ -33,30 +33,28 @@ char tabu_virado[6][6] =
         'X', 'X', 'X', 'X', 'X', 'X'};
 
 // PROTOTIPO DAS FUNCOES
-void montar_tabu();  // IMRPIMIR O TABULEIRO
-int analisar_tabu(); // ANALISA SE TODAS AS PEÇAS FORAM VIRADAS
+void menu();
+void info();
+void montarTabuleiro();
+int analisarTabuleiro();
 
 // FUNÇÃO PRINCIPAL DO CODIGO
-int main()
+void main()
 {
 
     int linha1, column1, linha2, column2;
     int op, gameover = 0, segundo = 0, minuto = 0, hora = 0;
-    char menu;
     time_t t_ini, t_fim;
 
-    do
+    while (op != 0)
     {
-        //  MENU DO JOGO
-        puts("\t\t\t\t\t***JOGO DA MEMORIA***\t\t\n");
-        puts("\t\t\t\t\t(1) Jogar\t");
-        puts("\t\t\t\t\t(2) Intrucoes\t");
-        puts("\t\t\t\t\t(3) Sair\t");
-        puts("\t\t\t\t\tDigite a opcao desejada: ");
+
+        menu();
         scanf("%d", &op);
 
-        if (op == 1)
+        switch (op)
         {
+        case 1:
             t_ini = time(NULL); // INICIO DO CRONOMETRO
 
             do
@@ -66,7 +64,7 @@ int main()
                     do
                     {
                         system("cls");
-                        montar_tabu();
+                        montarTabuleiro();
 
                         puts("Digite a linha e a coluna");
                         scanf("%d\n%d", &linha1, &column1);
@@ -94,7 +92,7 @@ int main()
                     do
                     {
                         system("cls");
-                        montar_tabu();
+                        montarTabuleiro();
 
                         puts("Digite a linha e a coluna");
                         scanf("%d\n%d", &linha2, &column2);
@@ -118,7 +116,7 @@ int main()
                 tabu_virado[linha2][column2] = tabu[linha2][column2];
 
                 system("cls");
-                montar_tabu();
+                montarTabuleiro();
 
                 if (tabu[linha1][column1] != tabu[linha2][column2])
                 {
@@ -131,7 +129,7 @@ int main()
                 {
                     puts("Boa!!");
                     Sleep(1000);
-                    gameover = analisar_tabu();
+                    gameover = analisarTabuleiro();
                 }
 
             } while (!gameover);
@@ -151,28 +149,42 @@ int main()
             printf("\nO Jogador demorou %dh:%dm:%ds.\n\n", hora, minuto, segundo); // PRINTA O TEMPO DA PARTIDA
             Sleep(5000);
             system("cls");
-        }
+            break;
 
-        if (op == 2)
-        {
+        case 2:
             system("cls");
-            puts("\n\nO jogo da memoria e um classico jogo formado por pecas que apresentam uma figura em um dos lados.\nCada figura se repete em duas peças diferentes.\nPara comecar o jogo, as pecas sao postas com as figuras voltadas para baixo, para que nao possam ser vistas.\nCada participante deve, na sua vez, virar duas pecas e deixar que todos as vejam. Caso as figuras sejam iguais, o participante deve recolher consigo esse par e jogar novamente.\nSe forem pecas diferentes, estas devem ser viradas novamente, e sendo passada a vez ao participante seguinte.\nGanha o jogo quem tiver mais pares no final do jogo.\n\n\t\t\t\t\t\tBy: Wikipedia\n");
-            scanf("%c", &menu);
+            info();
             system("pause");
             system("cls");
-        }
-        if (op == 3)
-        {
-            exit(3);
-        }
-    } while (menu);
+            break;
 
-    system("pause");
-    return 0;
+        default:
+            system("cls");
+            puts("Operacao Invalida!\nEscolhas Apenas uma das opcoes listadas.\n");
+            break;
+        }
+    }
 }
 
-// MONTAR O TABULEIRO
-void montar_tabu()
+// FUNÇÕES
+
+void menu()
+{
+    puts("0 - Sair");
+    puts("1 - Jogar");
+    puts("2 - Informacoes");
+    puts("");
+}
+
+void info()
+{
+    puts("Este e um jogo da memoria desenvolvido por Emanuel Jesus Santos.");
+    puts("Aluno do curso de analise e desenvolvimento de sistemas do insituto federal de Santa Catarina (IFSC) - Campus Canoinhas.");
+    puts("");
+    puts("Este jogo tem como proposito apresentar parte do conteudo que foi aprendido no primeiro modulo do curso.");
+}
+
+void montarTabuleiro()
 {
     printf("   0 1 2 3 4 5\n");
     for (int linha = 0; linha <= 5; linha++)
@@ -199,7 +211,7 @@ void montar_tabu()
 }
 
 // ANALISAR O JOGO
-int analisar_tabu()
+int analisarTabuleiro()
 {
     int qt;
     for (int linha = 0; linha <= 5; linha++)
